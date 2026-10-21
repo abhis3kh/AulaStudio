@@ -2,9 +2,7 @@
 
 A native Windows app for configuring the **AULA F75 over USB**, built with Rust, egui and OpenGL.
 
-This repository contains the complete Rust source code. You can modify it and compile your own Windows executable. Start with [Compile an executable](#compile-an-executable); see [CONTRIBUTING.md](CONTRIBUTING.md) for the source-code map.
-
-![Aula Studio music palette picker](docs/screenshots/music-palettes.png)
+This repository contains the complete Rust source code. You can modify it and compile your own Windows executable. Start with [Compile an executable](#compile-an-executable).
 
 ## Features
 
@@ -32,14 +30,14 @@ This is an independent community project, not an official AULA product. AULA and
 
 ## Run
 
-Extract the complete Windows release ZIP into a writable folder and open `AulaStudio.exe`. Keep `f75-check.exe` and the license files with the app. No Rust installation is needed to run the packaged executables.
+Compile the app using the instructions below, then open `target/release/aula-studio.exe`. Keep `f75-check.exe` available for recovery. No Rust installation is needed on a computer that only runs the compiled executables.
 
 1. Connect the keyboard by USB and select wired mode.
 2. Close other keyboard configuration programs.
 3. Open Aula Studio. Initial connection reads the keyboard.
 4. Edit a setting, then use its **Apply** control to write it.
 
-The executable is not code-signed. Verify the ZIP against the accompanying SHA-256 file before running a downloaded build.
+The executable is not code-signed.
 
 Profiles are stored in `%LOCALAPPDATA%\AulaStudio\profiles.json`. Loading a profile changes the local draft; applying it changes the keyboard. A profile containing macros replaces the keyboard's macro bank after confirmation. Existing macros cannot be preserved merely by saving a raw keymap: recreate their definitions in the app before saving a portable macro profile.
 
@@ -58,12 +56,12 @@ Music sync saves a checkpoint before changing the keyboard. Stop and normal wind
 Disconnecting the cable, ending the process forcibly, power loss or a stalled Windows HID request can prevent completion. Keep the checkpoint reported by the app. Reconnect in wired mode, close Aula Studio and other keyboard software, then run:
 
 ```powershell
-.\f75-check.exe --recover "C:\path\to\checkpoint.json"
+.\target\release\f75-check.exe --recover "C:\path\to\checkpoint.json"
 ```
 
 App checkpoints are under `%LOCALAPPDATA%\AulaStudio\recovery\`. Diagnostic commands save checkpoints in a `verification` folder beside the current working directory. Use a checkpoint from the same keyboard. Recovery requires exact readback and reports a failure if verification does not match.
 
-See [reliability and limitations](docs/RELIABILITY.md) before running hardware diagnostics.
+Hardware writes involve multiple reports and are not atomic. Recovery can fail after a disconnect or driver hang. Physical verification covers one wired F75; other revisions and layouts remain unverified.
 
 ## Compile an executable
 
@@ -78,7 +76,7 @@ Reopen your terminal after installation. The repository pins Rust 1.99.0 with `r
 
 ### Build and run
 
-Clone this repository, or extract the **source ZIP**, then open PowerShell in the directory containing `Cargo.toml` and `BUILD.ps1`. Run:
+Clone this repository, then open PowerShell in the directory containing `Cargo.toml` and `BUILD.ps1`. Run:
 
 ```powershell
 .\BUILD.ps1 release
@@ -98,14 +96,6 @@ You can also compile directly with Cargo:
 cargo build --locked --release --bin aula-studio --bin f75-check
 ```
 
-### Make a portable download
-
-```powershell
-.\BUILD.ps1 package
-```
-
-This creates `dist/releases/AulaStudio-0.1.0-windows-x86_64.zip` and its `.sha256` checksum. The ZIP contains `AulaStudio.exe`, `f75-check.exe`, documentation and licenses. Distribute the complete ZIP so recipients receive recovery tools and third-party notices.
-
 ### Check changes
 
 ```powershell
@@ -118,10 +108,10 @@ This creates `dist/releases/AulaStudio-0.1.0-windows-x86_64.zip` and its `.sha25
 
 Release builds use default features. The `capture` feature is for screenshots only and must not be used for distributed builds or live hardware music tests that might exit during capture.
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for the code map, palette extensions, test commands and contribution guidelines.
-
 ## License and provenance
 
 Original project code is available under the [MIT license](LICENSE). You may modify and redistribute it while retaining the copyright and license notice. Dependencies and embedded fonts retain their own licenses; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) and [licenses](licenses/).
 
-The included keyboard asset contains geometry, key labels, virtual-key values and matrix indices imported from an installed F75 configuration. It contains no OEM executable, firmware, artwork or font. Protocol behavior was independently implemented using device observations and the public [aula-f75-linux protocol notes](https://github.com/trenbolone1122/aula-f75-linux/blob/main/docs/PROTOCOL.md). That reference is attribution, not a grant to redistribute its code. See [provenance](docs/PROVENANCE.md).
+When redistributing compiled executables, include `LICENSE`, `THIRD_PARTY_NOTICES.md` and the `licenses/` directory. Update the third-party notices if dependencies change.
+
+The included keyboard asset contains geometry, key labels, virtual-key values and matrix indices imported from an installed F75 configuration. It contains no OEM executable, firmware, artwork or font. Protocol behavior was independently implemented using device observations and the public [aula-f75-linux protocol notes](https://github.com/trenbolone1122/aula-f75-linux/blob/main/docs/PROTOCOL.md). That reference is attribution, not a grant to redistribute its code.

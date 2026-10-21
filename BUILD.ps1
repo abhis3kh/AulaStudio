@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('test', 'check', 'fmt', 'clippy', 'release', 'package', 'run', 'probe')]
+    [ValidateSet('test', 'check', 'fmt', 'clippy', 'release', 'run', 'probe')]
     [string]$Action = 'test',
     [switch]$Offline
 )
@@ -69,12 +69,6 @@ try {
         }
         'release' {
             Invoke-TaskCargo (@('build', '--release', '--bin', 'aula-studio', '--bin', 'f75-check') + $taskLocked)
-        }
-        'package' {
-            # Capture and wireless diagnostic features are deliberately absent from release builds.
-            Invoke-TaskCargo (@('build', '--release', '--bin', 'aula-studio', '--bin', 'f75-check') + $taskLocked)
-            $taskTargetDirectory = if ($env:CARGO_TARGET_DIR) { $env:CARGO_TARGET_DIR } else { 'target' }
-            & (Join-Path $PSScriptRoot 'tools\package-release.ps1') -BinaryDirectory (Join-Path $taskTargetDirectory 'release')
         }
         'run' { Invoke-TaskCargo (@('run', '--release', '--bin', 'aula-studio') + $taskLocked) }
         'probe' { Invoke-TaskCargo (@('run', '--bin', 'aula-studio') + $taskLocked + @('--', '--probe')) }

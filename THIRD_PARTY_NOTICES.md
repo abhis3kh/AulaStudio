@@ -25,19 +25,9 @@ Full text files and their SHA-256 digests and provenance are recorded in
 versioned crate archive; missing texts come from the package's recorded upstream
 Git commit. No dependency source code is copied into this notice bundle.
 
-Regenerate after a Windows default build with Python 3.11+:
-
-```powershell
-python tools/generate-notices.py --check
-```
-
-The checked-in upstream texts are reused offline. Maintainers explicitly pass
-`--fetch-missing` only when a dependency update requires a new upstream license.
-`--metadata <file>` accepts Cargo metadata produced with `--locked --offline
---format-version 1 --filter-platform x86_64-pc-windows-msvc` and default features.
-`--rust-toolchain <directory>` selects the toolchain used for the release; otherwise
-`rustc --print sysroot` locates it. The rust-docs component supplies its legal notices.
-`--verify-bundle` checks the published notice files without Cargo or its registry.
+Review and update this inventory and the bundled license texts when changing
+dependencies or the Rust toolchain. The inventory below applies to the recorded
+lockfile and Windows default build.
 
 Cargo.lock SHA-256: `77e07abce61f7d5985619373bf3308773241d9045dd3184e3ce30096c1b6a1c1`
 
