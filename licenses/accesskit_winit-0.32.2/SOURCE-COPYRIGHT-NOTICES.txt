@@ -1,0 +1,19 @@
+Source files: src/lib.rs, src/platform_impl/macos.rs, src/platform_impl/null.rs, src/platform_impl/unix.rs, src/platform_impl/windows.rs
+
+Copyright 2022 The AccessKit Authors. All rights reserved.
+Licensed under the Apache License, Version 2.0 (found in
+the LICENSE-APACHE file).
+
+Source files: src/platform_impl/mod.rs
+
+Copyright 2022 The AccessKit Authors. All rights reserved.
+Licensed under the Apache License, Version 2.0 (found in
+the LICENSE-APACHE file).
+
+Based loosely on winit's src/platform_impl/mod.rs.
+
+Source files: src/platform_impl/android.rs
+
+Copyright 2025 The AccessKit Authors. All rights reserved.
+Licensed under the Apache License, Version 2.0 (found in
+the LICENSE-APACHE file).

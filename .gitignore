@@ -1,0 +1,48 @@
+# Build output and local tools
+/target/
+/.tools/
+/dist/
+*.exe
+*.dll
+*.pdb
+*.ilk
+*.obj
+*.exp
+*.dmp
+
+# Local app data and hardware verification records
+/data/
+/verification/
+/recovery/
+/profiles.json
+/profiles.json.*
+*.log
+
+# Secrets and local environment configuration
+.env
+.env.*
+!.env.example
+/.cargo/credentials
+/.cargo/credentials.toml
+*.pfx
+*.p12
+*.pem
+*.key
+
+# Python caches and local environments
+__pycache__/
+*.py[cod]
+/.venv/
+
+# Editor, operating system, and temporary files
+.vs/
+.idea/
+*.suo
+*.user
+*.rs.bk
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+Desktop.ini
