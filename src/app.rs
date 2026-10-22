@@ -1885,6 +1885,13 @@ impl Studio {
                     let response =
                         ui.interact(rect, ui.id().with(tab as usize), egui::Sense::click());
                     let selected = self.tab == tab;
+                    response.widget_info(|| {
+                        egui::WidgetInfo::labeled(
+                            egui::WidgetType::Button,
+                            ui.is_enabled(),
+                            tab.name(),
+                        )
+                    });
                     let active =
                         ui.ctx()
                             .animate_bool_with_time(response.id.with("active"), selected, 0.16);
@@ -3711,6 +3718,32 @@ mod tests {
                 },
             ],
         );
+    }
+    #[test]
+    fn sidebar_buttons_have_accessible_names() {
+        let (mut app, commands, _) = mock();
+        let context = egui::Context::default();
+        Studio::configure_style(&context);
+        context.enable_accesskit();
+        let output = frame(&context, &mut app, vec![]);
+        let tree = output.platform_output.accesskit_update.unwrap();
+        for tab in [
+            Tab::Lighting,
+            Tab::Music,
+            Tab::Keys,
+            Tab::Macros,
+            Tab::Profiles,
+            Tab::Settings,
+        ] {
+            assert!(
+                tree.nodes
+                    .iter()
+                    .any(|(_, node)| node.label() == Some(tab.name())),
+                "Missing accessible navigation name: {}",
+                tab.name()
+            );
+        }
+        assert!(commands.try_recv().is_err());
     }
     #[test]
     fn sidebar_click_changes_tab_without_device_access() {

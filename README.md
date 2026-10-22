@@ -23,6 +23,25 @@ The first build downloads the pinned Rust toolchain and dependencies. Both the a
 
 Connect the keyboard in USB mode and close other keyboard software. Use **Apply** to save changes. For music lighting, play audio, open **Music**, choose a palette and select **Start music sync**. Stop music sync before unplugging the keyboard.
 
+## How it works
+
+```mermaid
+flowchart LR
+    UI["Rust UI · egui / OpenGL"] --> Scene["2D / 3D keyboard preview"]
+    Layout["assets/keyboard-layout.json"] --> Scene
+    UI <--> Profiles["Local JSON profiles"]
+    UI --> Worker["Device worker"]
+    Audio["Windows playback audio"] --> DSP["Rhythm analysis + palettes"]
+    DSP --> Scene
+    DSP --> Stream["Music RGB stream"]
+    Worker --> Stream
+    Worker --> HID["HID protocol"]
+    Stream --> HID
+    HID <--> Keyboard["AULA F75 · USB"]
+```
+
+`src/` contains the app and tests; `assets/` holds the keyboard layout. Cargo files, `.cargo/`, `rust-toolchain.toml` and `BUILD.ps1` control the build. `licenses/` contains third-party notices.
+
 ## License
 
 [MIT](LICENSE). When sharing compiled executables, include `LICENSE`, [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) and the [licenses](licenses/) folder.
