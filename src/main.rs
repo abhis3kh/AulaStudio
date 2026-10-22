@@ -34,6 +34,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     };
     let options = eframe::NativeOptions {
         viewport: eframe::egui::ViewportBuilder::default()
+            .with_icon(eframe::icon_data::from_png_bytes(include_bytes!(
+                "../assets/app-icon.png"
+            ))?)
             .with_inner_size(window_size)
             .with_min_inner_size([920.0, 650.0])
             .with_title("Aula Studio | F75"),

@@ -3,6 +3,7 @@
 /.tools/
 /dist/
 *.exe
+!/installer/AulaStudio-Setup.exe
 *.dll
 *.pdb
 *.ilk

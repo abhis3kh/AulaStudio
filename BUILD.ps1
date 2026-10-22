@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('test', 'check', 'fmt', 'clippy', 'release', 'run', 'probe')]
+    [ValidateSet('test', 'check', 'fmt', 'clippy', 'release', 'installer', 'run', 'probe')]
     [string]$Action = 'test',
     [switch]$Offline
 )
@@ -71,6 +71,11 @@ try {
             Invoke-TaskCargo (@('build', '--release', '--bin', 'aula-studio', '--bin', 'f75-check') + $taskLocked)
         }
         'run' { Invoke-TaskCargo (@('run', '--release', '--bin', 'aula-studio') + $taskLocked) }
+        'installer' {
+            Invoke-TaskCargo (@('build', '--release', '--bin', 'aula-studio', '--bin', 'f75-check') + $taskLocked)
+            $taskTarget = if ($env:CARGO_TARGET_DIR) { $env:CARGO_TARGET_DIR } else { Join-Path $PSScriptRoot 'target' }
+            & (Join-Path $PSScriptRoot 'installer\build.ps1') -BinaryDirectory (Join-Path $taskTarget 'release')
+        }
         'probe' { Invoke-TaskCargo (@('run', '--bin', 'aula-studio') + $taskLocked + @('--', '--probe')) }
     }
 } finally {

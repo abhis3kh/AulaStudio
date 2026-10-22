@@ -8,7 +8,7 @@ license = "MIT"
 description = "Native Windows USB configuration and music lighting for the AULA F75 keyboard"
 readme = "README.md"
 publish = false
-include = ["src/**", "assets/keyboard-layout.json", "Cargo.toml", "Cargo.lock", "LICENSE", "README.md"]
+include = ["src/**", "assets/**", "build.rs", "Cargo.toml", "Cargo.lock", "LICENSE", "README.md"]
 
 [lib]
 path = "src/lib.rs"
